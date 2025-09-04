@@ -1,0 +1,59 @@
+### Prompt for Replit
+
+Build a modern, responsive front‑end for an MVP called “SepsisGuard,” a clinical dashboard that helps clinicians monitor patients for sepsis risk. Focus on UI/UX, dummy data, and smooth interactions; do not build a backend. Use a creative, modern design language with a green-and-magenta theme.
+
+What the app does (high level):
+- Monitors inpatients with vital sensors and periodic lab results to surface a sepsis risk score per patient.
+- Supports two data entry modes:
+  - Prefilled via connected sensors/APIs and AI/OCR (e.g., parse a screenshot of lab results to prefill fields).
+  - Manual entry by clinicians (forms).
+- Displays current status, alerts, testing schedules, and high‑risk patients at a glance.
+- Designed for quick triage, drill‑downs, and alert acknowledgment.
+
+Data model (dummy/mock data only):
+- Patients (10–20 dummy records): id, name, date of birth, room/bed, admission date, status (stable/warning/critical), latest vitals, latest labs, latest sepsis risk score (0–100), trend up/down.
+- Vitals (recent timeline): heart rate, temperature, systolic/diastolic BP, oxygen saturation, respiratory rate, timestamp.
+- Lab results (latest + simple history): lactate, WBC, CRP, cultures status, any other sepsis‑relevant markers.
+- Alerts: type (critical/warning/info), message, timestamp, acknowledged flag.
+- Testing schedule: interval (e.g., every 1–4 hours), last run, next run, simple progress indicator.
+- Sensor status: heart_rate, temperature, blood_pressure, oxygen (online/offline/error with counts).
+- OCR/AI prefill: simulate “upload lab screenshot” → show parsed fields with confidence and allow user to accept/edit.
+
+Pages/sections to include:
+- Dashboard (overview): stats tiles, recent alerts, high‑risk patients, testing schedule progress, quick links.
+- Patients Grid: cards/table with key vitals, risk score, last updated time, “View details” and “Escalate” actions.
+- Patient Details (modal or page): vitals chart (24h), latest labs, alert history, recommended actions, retest button.
+- Alerts: list of active alerts with acknowledge action.
+- Automated Testing: interval selector, progress bar to next run, recent test runs, manual “Run Now” button.
+- Alert Config/Settings: thresholds (critical/warning), notification toggles (audio/email/SMS).
+- Sensors: status per sensor type with online/total and simple health color coding.
+- Manual Entry: form to input vitals and labs; alternate “Upload lab screenshot” → mock OCR result → editable fields.
+- Optional Sidebar: navigation with counters (e.g., unacknowledged alerts), theme toggle (light/dark).
+
+Behavior and data handling (no backend):
+- Use mocked APIs or in‑memory stores. Provide seed/dummy data and randomize timestamps to feel real.
+- For OCR/AI prefill, simulate output with a small delay, returning fields + confidence badges.
+- For charts, show simple time‑series vitals over a selected range (e.g., 6h/12h/24h).
+- For progress to next test, animate a progress bar (based on schedule interval and last run).
+- For alerts, allow “Acknowledge” that updates the UI state immediately.
+
+Design direction:
+- Modern, clean, colorful (primary green with magenta accent). Glassy cards, subtle depth, clear typography.
+- High contrast and accessible controls; responsive layouts for desktop/tablet.
+- Use icons sparingly for vitals/sensors; gentle micro‑interactions (hover, button press).
+
+Deliverables:
+- A single‑page app (or multi‑page client‑side routes) with the sections above wired to mock data and interactions.
+- Reusable components (StatTile, PatientCard, VitalsChart, AlertsList, SchedulePanel, SensorStatus, OCRPrefill).
+- Simple state management and a minimal “seed data” generator for patients, vitals, labs, alerts.
+- No backend required; keep it self‑contained and runnable in the Replit preview.
+- Include a quick “Seed Demo Data” action to refresh all dummy data.
+
+What to leave open to your creativity:
+- Exact layout/composition of panels, animations, typography, and iconography.
+- Component library or CSS framework choice (or custom CSS).
+- Data visualization style (sparklines vs. line charts).
+- OCR/AI prefill mock experience and confidence UI.
+
+Goal:
+- A polished demo UI that looks great, feels responsive, shows believable dummy data, and demonstrates the workflow: monitoring → alerting → details → data entry (manual or OCR/AI prefill) → schedule/testing overview.
