@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-card rounded-lg border border-border shadow-sm">
+  <div class="p-4 border-b border-border">
+    <h3 class="font-semibold text-card-foreground">Alert Configuration</h3>
+  </div>
+  
+  <div class="p-4 space-y-4">
+    <form method="post" action="{% url 'update_alert_config' %}">
+      {% csrf_token %}
+      <div>
+        <label class="text-sm font-medium text-card-foreground mb-2 block">Critical Threshold</label>
+        <div class="flex items-center space-x-2">
+          <input 
+            type="range"
+            name="critical_threshold"
+            value="{{ critical_threshold }}"
+            min="70"
+            max="95"
+            step="1"
+            class="flex-1"
+            data-testid="slider-critical-threshold"
+            oninput="document.getElementById('critical-value').textContent = this.value + '%'"
+          />
+          <span id="critical-value" class="text-sm font-medium text-card-foreground w-12" data-testid="text-critical-threshold">
+            {{ critical_threshold }}%
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-sm font-medium text-card-foreground mb-2 block">Warning Threshold</label>
+        <div class="flex items-center space-x-2">
+          <input 
+            type="range"
+            name="warning_threshold"
+            value="{{ warning_threshold }}"
+            min="50"
+            max="80"
+            step="1"
+            class="flex-1"
+            data-testid="slider-warning-threshold"
+            oninput="document.getElementById('warning-value').textContent = this.value + '%'"
+          />
+          <span id="warning-value" class="text-sm font-medium text-card-foreground w-12" data-testid="text-warning-threshold">
+            {{ warning_threshold }}%
+          </span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center space-x-2">
+          <input 
+            type="checkbox"
+            id="audioAlerts"
+            name="audio_alerts"
+            {% if audio_alerts %}checked{% endif %}
+            data-testid="checkbox-audio-alerts"
+          />
+          <label for="audioAlerts" class="text-sm text-card-foreground">
+            Audio Alerts
+          </label>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+          <input 
+            type="checkbox"
+            id="emailNotifications"
+            name="email_notifications"
+            {% if email_notifications %}checked{% endif %}
+            data-testid="checkbox-email-notifications"
+          />
+          <label for="emailNotifications" class="text-sm text-card-foreground">
+            Email Notifications
+          </label>
+        </div>
+        
+        <div class="flex items-center space-x-2">
+          <input 
+            type="checkbox"
+            id="smsAlerts"
+            name="sms_alerts"
+            {% if sms_alerts %}checked{% endif %}
+            data-testid="checkbox-sms-alerts"
+          />
+          <label for="smsAlerts" class="text-sm text-card-foreground">
+            SMS Alerts
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn mt-4 w-full">Save Changes</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

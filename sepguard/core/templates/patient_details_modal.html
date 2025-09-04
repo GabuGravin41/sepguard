@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+{% if patient %}
+
+  
+    
+      {{ patient.name }} - Detailed View
+      
+        {{ patient.room }} • Age: {{ patient.age }} • {% if patient.gender == 0 %}Female{% else %}Male{% endif %}
+      
+    
+  
+  
+    
+      
+        
+        
+          
+            Patient Information
+          
+          
+            
+              Age
+              
+                {{ patient.age }} years
+              
+            
+            
+              Gender
+              
+                {% if patient.gender == 0 %}Female{% else %}Male{% endif %}
+              
+            
+            
+              Episode Number
+              
+                {{ patient.episode_number }}
+              
+            
+            
+              Admission Date
+              
+                {{ patient.admission_date|date:"SHORT_DATE_FORMAT" }}
+              
+            
+          
+{% if patient.latest_vitals %}
+            
+              Current Vitals
+              
+                
+                  Heart Rate
+                  
+                    {{ patient.latest_vitals.heart_rate|default:"--" }} BPM
+                  
+                
+                
+                  Temperature
+                  
+                    {{ patient.latest_vitals.temperature|floatformat:1|default:"--" }}°C
+                  
+                
+                
+                  Blood Pressure
+                  
+                    {% if patient.latest_vitals.systolic_bp and patient.latest_vitals.diastolic_bp %}
+                      {{ patient.latest_vitals.systolic_bp|floatformat:0 }}/{{ patient.latest_vitals.diastolic_bp|floatformat:0 }} mmHg
+                    {% else %}
+                      --/-- mmHg
+                    {% endif %}
+                  
+                
+                
+                  O2 Saturation
+                  
+                    {{ patient.latest_vitals.oxygen_saturation|floatformat:0|default:"--" }}%
+                  
+                
+              
+            
+          {% endif %}
+        
+        
+        
+          
+            Risk Assessment Timeline
+          
+          
+            {% for test in test_history %}
+              
+                
+                  {{ test.timestamp|time:"H:i" }}
+                
+                
+                  
+                    
+                      {% if test.risk_score >= 85 %}Critical{% elif test.risk_score >= 65 %}High{% elif test.risk_score >= 40 %}Moderate{% else %}Low{% endif %} Risk: {{ test.risk_score|floatformat:0 }}%
+                    
+                    
+                      {% if test.risk_score >= 85 %}Critical{% elif test.risk_score >= 65 %}High{% elif test.risk_score >= 40 %}Moderate{% else %}Low{% endif %}
+                    
+                  
+                  
+                    {% if test.is_automatic %}Automated test{% else %}Manual test{% endif %}
+                  
+                
+              
+            {% endfor %}
+{% if not test_history %}
+              
+                
+                No test history available
+              
+            {% endif %}
+          
+{% if patient.latest_test %}
+            
+              Recommended Actions
+              
+                {% for action in recommended_actions %}
+                  
+                    
+                    {{ action }}
+                  
+                {% endfor %}
+              
+            
+          {% endif %}
+        
+      
+      
+{% if alert_history %}
+        
+          
+            Alert History
+          
+          
+            {% for alert in alert_history %}
+              
+                
+                
+                  
+                    {{ alert.message }}
+                  
+                  
+                    
+                      {{ alert.timestamp|date:"m/d/Y, g:i a" }}
+                    
+                    {% if alert.acknowledged %}
+                      
+                        Acknowledged
+                      
+                    {% endif %}
+                  
+                
+              
+            {% endfor %}
+          
+        
+      {% endif %}
+      
+      
+        <button class="btn secondary" data-testid="button-print-report">
+          <!-- Placeholder for icon -->
+          Print Report
+        </button>
+        <button class="btn" data-testid="button-escalate-to-doctor">
+          <!-- Placeholder for icon -->
+          Escalate to Doctor
+        </button>
+      
+    
+  
+
+{% endif %}
+{% endblock %}

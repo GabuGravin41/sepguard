@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-card rounded-lg border border-border shadow-sm">
+  <div class="p-4 border-b border-border">
+    <div class="flex items-center justify-between">
+      <h3 class="font-semibold text-card-foreground">Automated Testing</h3>
+      <div class="flex items-center space-x-2">
+        <div class="status-indicator status-normal sensor-status"></div>
+        <span class="text-xs text-success font-medium" data-testid="text-testing-status">
+          {% if schedule.is_active %}Running{% else %}Stopped{% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="p-4 space-y-4">
+    <div>
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-muted-foreground">Test Interval</span>
+        <span class="text-sm font-medium text-card-foreground" data-testid="text-test-interval">
+          {{ interval_label }}
+        </span>
+      </div>
+      <div class="progress w-full h-2" style="width: {{ test_progress }}%;" data-testid="progress-test-interval"></div>
+      <p class="text-xs text-muted-foreground mt-1" data-testid="text-next-test">
+        Next test in {{ next_test_time }}
+      </p>
+    </div>
+
+    <form method="post" action="{% url 'update_schedule' %}">
+      {% csrf_token %}
+      <div>
+        <label class="text-sm font-medium text-card-foreground mb-2 block">Testing Schedule</label>
+        <select name="interval_minutes" class="select" data-testid="select-testing-schedule">
+          <option value="15" {% if selected_interval == 15 %}selected{% endif %}>Every 15 minutes</option>
+          <option value="30" {% if selected_interval == 30 %}selected{% endif %}>Every 30 minutes</option>
+          <option value="60" {% if selected_interval == 60 %}selected{% endif %}>Every 1 hour</option>
+          <option value="120" {% if selected_interval == 120 %}selected{% endif %}>Every 2 hours</option>
+          <option value="240" {% if selected_interval == 240 %}selected{% endif %}>Every 4 hours</option>
+        </select>
+      </div>
+      <button type="submit" class="btn mt-4">Update Schedule</button>
+    </form>
+
+    <div class="space-y-2">
+      <h4 class="text-sm font-medium text-card-foreground">Recent Tests</h4>
+      <div class="space-y-1">
+        {% for test in recent_tests %}
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-muted-foreground">{{ test.time }}</span>
+            <span class="text-success">
+              <i class="fas fa-check-circle inline mr-1"></i>
+              Completed ({{ test.patients_count }} patients)
+            </span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <form method="post" action="{% url 'run_manual_test' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn w-full" data-testid="button-run-manual-test">
+        <i class="fas fa-play mr-2"></i>
+        Run Manual Test
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

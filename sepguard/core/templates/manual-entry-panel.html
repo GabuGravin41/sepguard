@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-card rounded-lg border border-border shadow-sm">
+  <div class="p-4 border-b border-border">
+    <div class="flex items-center space-x-2">
+      <i class="fas fa-keyboard"></i>
+      <div>
+        <h3 class="font-semibold text-card-foreground">Manual Vitals Entry</h3>
+        <p class="text-xs text-muted-foreground">Use when sensors are unavailable</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="p-4">
+    <form method="post" action="{% url 'submit_manual_vitals' %}">
+      {% csrf_token %}
+      <div class="space-y-4">
+        <div>
+          <label for="patient_id" class="text-sm font-medium text-card-foreground">Patient ID</label>
+          <input 
+            type="text" 
+            id="patient_id"
+            name="patient_id" 
+            placeholder="Enter patient ID" 
+            required 
+            class="input"
+            data-testid="input-patient-id"
+          />
+          {% if form_errors.patient_id %}
+            <p class="text-destructive text-xs">{{ form_errors.patient_id }}</p>
+          {% endif %}
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="heart_rate" class="text-sm font-medium text-card-foreground">Heart Rate</label>
+            <input 
+              type="number" 
+              id="heart_rate"
+              name="heart_rate" 
+              placeholder="BPM" 
+              min="30" 
+              max="200" 
+              class="input"
+              data-testid="input-heart-rate"
+            />
+            {% if form_errors.heart_rate %}
+              <p class="text-destructive text-xs">{{ form_errors.heart_rate }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="temperature" class="text-sm font-medium text-card-foreground">Temperature</label>
+            <input 
+              type="number" 
+              id="temperature"
+              name="temperature" 
+              step="0.1" 
+              placeholder="°C" 
+              min="30" 
+              max="45" 
+              class="input"
+              data-testid="input-temperature"
+            />
+            {% if form_errors.temperature %}
+              <p class="text-destructive text-xs">{{ form_errors.temperature }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="systolic_bp" class="text-sm font-medium text-card-foreground">Systolic BP</label>
+            <input 
+              type="number" 
+              id="systolic_bp"
+              name="systolic_bp" 
+              placeholder="mmHg" 
+              min="50" 
+              max="300" 
+              class="input"
+              data-testid="input-systolic-bp"
+            />
+            {% if form_errors.systolic_bp %}
+              <p class="text-destructive text-xs">{{ form_errors.systolic_bp }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="diastolic_bp" class="text-sm font-medium text-card-foreground">Diastolic BP</label>
+            <input 
+              type="number" 
+              id="diastolic_bp"
+              name="diastolic_bp" 
+              placeholder="mmHg" 
+              min="30" 
+              max="200" 
+              class="input"
+              data-testid="input-diastolic-bp"
+            />
+            {% if form_errors.diastolic_bp %}
+              <p class="text-destructive text-xs">{{ form_errors.diastolic_bp }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="oxygen_saturation" class="text-sm font-medium text-card-foreground">O2 Saturation</label>
+            <input 
+              type="number" 
+              id="oxygen_saturation"
+              name="oxygen_saturation" 
+              placeholder="%" 
+              min="70" 
+              max="100" 
+              class="input"
+              data-testid="input-oxygen-saturation"
+            />
+            {% if form_errors.oxygen_saturation %}
+              <p class="text-destructive text-xs">{{ form_errors.oxygen_saturation }}</p>
+            {% endif %}
+          </div>
+          
+          <div>
+            <label for="respiratory_rate" class="text-sm font-medium text-card-foreground">Respiratory Rate</label>
+            <input 
+              type="number" 
+              id="respiratory_rate"
+              name="respiratory_rate" 
+              placeholder="breaths/min" 
+              min="5" 
+              max="60" 
+              class="input"
+              data-testid="input-respiratory-rate"
+            />
+            {% if form_errors.respiratory_rate %}
+              <p class="text-destructive text-xs">{{ form_errors.respiratory_rate }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <button 
+          type="submit"
+          class="btn w-full"
+          data-testid="button-submit-manual-entry"
+        >
+          <i class="fas fa-save mr-2"></i>
+          Submit & Run Test
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

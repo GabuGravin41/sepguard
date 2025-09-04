@@ -1,0 +1,54 @@
+```django
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-card rounded-lg border border-border shadow-sm">
+  <div class="p-4 border-b border-border">
+    <h3 class="font-semibold text-card-foreground">Sensor Status</h3>
+  </div>
+  
+  <div class="p-4 space-y-3">
+    {% for sensor_type in sensor_types %}
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="status-indicator status-{% if sensor_statuses(sensor_type).status_class == 'normal' %}normal{% elif sensor_statuses(sensor_type).status_class == 'warning' %}warning{% else %}critical{% endif %}"></div>
+          <div class="flex items-center space-x-2">
+            {% if sensor_type == 'heart_rate' %}
+              <i class="fas fa-heart"></i>
+            {% elif sensor_type == 'temperature' %}
+              <i class="fas fa-thermometer-half"></i>
+            {% elif sensor_type == 'blood_pressure' %}
+              <i class="fas fa-chart-line"></i>
+            {% elif sensor_type == 'oxygen' %}
+              <i class="fas fa-tint"></i>
+            {% else %}
+              <i class="fas fa-chart-line"></i>
+            {% endif %}
+            <span class="text-sm text-card-foreground">
+              {{ sensor_labels(sensor_type) }}
+            </span>
+          </div>
+        </div>
+        <span 
+          class="text-xs font-medium {% if sensor_statuses(sensor_type).status_class == 'normal' %}text-success{% elif sensor_statuses(sensor_type).status_class == 'warning' %}text-warning{% else %}text-destructive{% endif %}"
+          data-testid="text-sensor-count-{{ sensor_type }}"
+        >
+          {{ sensor_statuses(sensor_type).online }}/{{ sensor_statuses(sensor_type).total }}
+        </span>
+      </div>
+    {% endfor %}
+
+    <div class="pt-3 border-t border-border">
+      <a 
+        href="{% url 'manual_entry_mode' %}" 
+        class="btn ghost sm text-primary hover:underline"
+        data-testid="button-manual-entry-mode"
+      >
+        <i class="fas fa-keyboard mr-2"></i>
+        Manual Entry Mode
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+```

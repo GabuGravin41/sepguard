@@ -1,0 +1,150 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepsis Detection System</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --background: hsl(210, 40%, 98%);
+            --foreground: hsl(210, 40%, 8%);
+            --card: hsl(210, 40%, 100%);
+            --card-foreground: hsl(210, 40%, 15%);
+            --popover: hsl(210, 40%, 100%);
+            --popover-foreground: hsl(210, 40%, 5%);
+            --primary: hsl(211, 100%, 45%);
+            --primary-foreground: hsl(210, 40%, 98%);
+            --secondary: hsl(210, 40%, 96%);
+            --secondary-foreground: hsl(210, 40%, 9%);
+            --muted: hsl(210, 40%, 96%);
+            --muted-foreground: hsl(210, 40%, 45%);
+            --accent: hsl(210, 40%, 96%);
+            --accent-foreground: hsl(210, 40%, 9%);
+            --destructive: hsl(0, 84%, 60%);
+            --destructive-foreground: hsl(210, 40%, 98%);
+            --success: hsl(142, 76%, 36%);
+            --success-foreground: hsl(210, 40%, 98%);
+            --warning: hsl(38, 92%, 50%);
+            --warning-foreground: hsl(210, 40%, 98%);
+            --border: hsl(210, 40%, 90%);
+            --input: hsl(210, 40%, 90%);
+            --ring: hsl(211, 100%, 45%);
+            --radius: 0.75rem;
+            --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --font-mono: 'Roboto Mono', 'Monaco', 'Consolas', monospace;
+        }
+
+        .dark {
+            --background: hsl(210, 40%, 5%);
+            --foreground: hsl(210, 40%, 98%);
+            --card: hsl(210, 40%, 8%);
+            --card-foreground: hsl(210, 40%, 98%);
+            --popover: hsl(210, 40%, 8%);
+            --popover-foreground: hsl(210, 40%, 98%);
+            --primary: hsl(211, 85%, 55%);
+            --primary-foreground: hsl(210, 40%, 98%);
+            --secondary: hsl(210, 40%, 12%);
+            --secondary-foreground: hsl(210, 40%, 98%);
+            --muted: hsl(210, 40%, 12%);
+            --muted-foreground: hsl(210, 40%, 65%);
+            --accent: hsl(210, 40%, 12%);
+            --accent-foreground: hsl(210, 40%, 98%);
+            --destructive: hsl(0, 75%, 55%);
+            --destructive-foreground: hsl(210, 40%, 98%);
+            --success: hsl(142, 70%, 45%);
+            --success-foreground: hsl(210, 40%, 98%);
+            --warning: hsl(38, 85%, 55%);
+            --warning-foreground: hsl(210, 40%, 98%);
+            --border: hsl(210, 40%, 18%);
+            --input: hsl(210, 40%, 18%);
+            --ring: hsl(211, 85%, 55%);
+        }
+
+        * {
+            border-color: hsl(var(--border));
+        }
+
+        body {
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+
+        .alert-pulse {
+            animation: pulse-alert 1.5s infinite;
+        }
+
+        @keyframes pulse-alert {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-normal { 
+            background-color: hsl(var(--success)); 
+        }
+
+        .status-warning { 
+            background-color: hsl(var(--warning)); 
+        }
+
+        .status-critical { 
+            background-color: hsl(var(--destructive)); 
+        }
+
+        .vitals-chart {
+            background: linear-gradient(45deg, transparent 49%, hsl(var(--border)) 49%, hsl(var(--border)) 51%, transparent 51%);
+            background-size: 10px 10px;
+        }
+
+        .sensor-status {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sensor-status::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: sensor-scan 2s infinite;
+        }
+
+        @keyframes sensor-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
+    {% block content %}
+    {% endblock %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

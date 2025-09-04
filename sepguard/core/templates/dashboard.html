@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+  <h1 class="text-2xl font-bold mb-6">SepsisGuard Dashboard</h1>
+  
+  <!-- Stats Overview -->
+  {% include "stats_overview.html" %}
+  
+  <!-- Alerts Panel -->
+  {% include "alerts_panel.html" %}
+  
+  <!-- Automated Testing Panel -->
+  {% include "automated_testing_panel.html" %}
+  
+  <!-- Alert Config Panel -->
+  {% include "alert_config_panel.html" %}
+  
+  <!-- Sensor Status Panel -->
+  {% include "sensor_status_panel.html" %}
+  
+  <!-- Patient Monitoring Grid -->
+  {% include "patient_monitoring_grid.html" %}
+  
+  <!-- Other panels like model_prediction_panel (for selected patient), vitals_chart, etc. -->
+  {% if selected_patient %}
+    {% include "model_prediction_panel.html" %}
+    {% include "vitals_chart.html" %}
+  {% endif %}
+</div>
+{% endblock %}

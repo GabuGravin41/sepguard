@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+{% if stats %}
+  
+    
+      
+        
+          Active Patients
+          
+            {{ stats.active_patients }}
+          
+        
+        
+          
+        
+      
+      
+        
+        3
+        from yesterday
+      
+    
+    
+      
+        
+          High Risk
+          
+            {{ stats.high_risk_count }}
+          
+        
+        
+          
+        
+      
+      
+        
+        1
+        since last hour
+      
+    
+    
+      
+        
+          Tests Today
+          
+            {{ stats.tests_today }}
+          
+        
+        
+          
+        
+      
+      
+        ✓ 98.7%
+        accuracy rate
+      
+    
+    
+      
+        
+          Avg Response
+          
+            {{ stats.avg_response_time }}
+          
+        
+        
+          
+        
+      
+      
+        
+        15s
+        improvement
+      
+    
+  
+{% endif %}
+{% endblock %}

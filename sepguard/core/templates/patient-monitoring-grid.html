@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+
+  
+    
+      Patient Monitoring
+      
+        <button class="btn ghost sm" data-testid="button-filter-patients">
+          <!-- Filter icon -->
+          Filter
+        </button>
+        <button class="btn ghost sm" data-testid="button-export-patients">
+          <!-- Download icon -->
+          Export
+        </button>
+      
+    
+  
+  
+    
+      {% for patient in patients %}
+        
+          
+            
+              
+              
+                
+                  {{ patient.name }}
+                
+                
+                  {{ patient.room }} • ID: {{ patient.patient_id }}
+                
+              
+            
+            
+              
+                {{ patient.risk_score|floatformat:0 }}%
+              
+              Risk Score
+            
+          
+{% if patient.latest_vitals %}
+            
+              
+                HR
+                
+                  {{ patient.latest_vitals.heart_rate|floatformat:0|default:"--" }}
+                
+              
+              
+                Temp
+                
+                  {{ patient.latest_vitals.temperature|floatformat:1|default:"--" }}°C
+                
+              
+              
+                BP
+                
+                  {% if patient.latest_vitals.systolic_bp and patient.latest_vitals.diastolic_bp %}
+                    {{ patient.latest_vitals.systolic_bp|floatformat:0 }}/{{ patient.latest_vitals.diastolic_bp|floatformat:0 }}
+                  {% else %}
+                    --/--
+                  {% endif %}
+                
+              
+              
+                O2
+                
+                  {{ patient.latest_vitals.oxygen_saturation|floatformat:0|default:"--" }}%
+                
+              
+            
+          {% endif %}
+          
+            
+              {{ patient.last_update }}
+            
+            
+              
+                
+                View Details
+              
+              {% if patient.risk_score >= 85 %}
+                <button class="btn sm destructive" data-testid="button-escalate-{{ patient.id }}">
+                  <!-- AlertTriangle icon -->
+                  Escalate
+                </button>
+              {% endif %}
+            
+          
+        
+      {% endfor %}
+{% if more_patients %}
+        
+          
+          {{ more_patients }} more patients
+          
+            View All
+          
+        
+      {% endif %}
+    
+  
+
+{% endblock %}
